@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  jenkins:
+    image: jamessmith52963/jenkins:lts
+    entrypoint: ["/sbin/tini", "--", "/usr/local/bin/jenkins-init.sh"] 
+    deploy:
+      replicas: 1
+      restart_policy: 
+        condition: any
+      placement:
+        constraints:
+           - node.hostname == dockertoolbox.com
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/bin/docker
+    ports:
+      - 8081:8080
+      - 50001:5000
+    configs:
+      - source: jenkins-init.sh
+        target: /usr/local/bin/jenkins-init.sh
+        mode: 0777
+    
+volumes:
+  jenkins_data:
+    driver: local
+
+configs:
+  jenkins-init.sh:
+    file: ./jenkins-init.sh
