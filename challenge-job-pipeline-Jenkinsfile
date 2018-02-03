@@ -1,14 +1,16 @@
 pipeline {
-  agent any
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
-    stage('docker build'){
+    agent {
+      docker {
+          image 'node:latest'
+      }
+    }
+    stage('npm version'){
       steps{
-        sh "docker -v"
-        sh "docker ps"
-        sh "whoami"
+        sh "npm -v"
       }
     }
   }
