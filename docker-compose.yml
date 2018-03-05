@@ -4,8 +4,6 @@ services:
   jenkins:
     image: jamessmith52963/jenkins:lts
     entrypoint: ["/sbin/tini", "--", "/usr/local/bin/jenkins-init.sh"] 
-    environment:
-      - JAVA_OPTS=-Dmail.smtp.starttls.enable='true'
     deploy:
       replicas: 1
       restart_policy: 
