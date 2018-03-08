@@ -31,6 +31,8 @@ services:
     ports:
       - 9000:9000
       - 9002:9002
+    volumes:
+      - sonar_data:/opt/sonarqube/data
   postgres:
     image: postgres:10-alpine
     environment:
@@ -46,6 +48,8 @@ volumes:
   jenkins_data:
     driver: local
   pg_data:
+    driver: local
+  sonar_data:
     driver: local
 
 configs:
